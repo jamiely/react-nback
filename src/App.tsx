@@ -1,24 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Grid from './components/Grid';
+import InfoBar from './components/InfoBar';
+import History from './components/History';
+import { newRound, Game, isMatch } from './Game';
+import { useInterval } from './util';
 
-function App() {
+export interface AppProps {
+  game: Game
+};
+
+function App({game: originalGame}: AppProps) {
+  const [game, setGame] = useState(originalGame);
+  const [matchState, setMatchState] = useState<string>('');
+
+  function onCheckClick() {
+    setMatchState(isMatch(game) ? 'match' : 'nomatch');
+  }
+
+  useInterval(() => {
+    setGame(game => newRound(game));
+  }, 1500);
+
+  useInterval(() => {
+    setMatchState('');
+  }, 3000);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="main">
+        <Grid symbol={game.current} />
+      </div>
+      <InfoBar onClick={onCheckClick} />
+      <div>{matchState}</div>
+      <History game={game} />
     </div>
   );
 }

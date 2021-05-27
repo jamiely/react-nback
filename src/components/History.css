@@ -1,0 +1,27 @@
+.history {
+    display: block;
+    background-color: lightgray;
+}
+
+.historyItem {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 8px;
+}
+
+.historyItem .grid {
+    font-size: 0em;
+}
+.historyItem .cell {
+    width: 10px; 
+    height: 10px;
+}
+.historyItem .cell.selected {
+    background-color: darkblue;
+}
+.historyItem.historyItem--1 .cell.selected {
+    background-color: green;
+}
+.historyItem.historyItem-1 .cell.selected {
+    background-color: red;
+}

@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createGame } from './Game';
+
+const game = createGame();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App game={game} />
   </React.StrictMode>,
   document.getElementById('root')
 );
