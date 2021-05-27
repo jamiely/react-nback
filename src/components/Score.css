@@ -1,0 +1,6 @@
+.score {
+    font-size: large;
+}
+.score:before {
+    content: 'Score: ';
+}

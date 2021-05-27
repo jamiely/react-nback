@@ -21,7 +21,7 @@ function HistoryItem({symbol, historyIndex}: HistoryItemProps) {
     const n = historyIndex + 1;
 
     return <div className={`historyItem historyItem-${historyIndex}`}>
-        n={n}
+        {n}-back
         <div className="grid">
         {[...Array(9)].map(getCell)}
         </div>

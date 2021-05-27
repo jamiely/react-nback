@@ -1,6 +1,7 @@
 const defaultCellText = '💩';
 
 export interface Game {
+    round: number;
     // past symbols
     symbols: Symbol[];
     // current symbols
@@ -29,7 +30,7 @@ export function getIndexFromPosition(position: Position) {
 
 // returns true if n-back is true at this point
 export function isMatch({roundsBack, symbols, current}: Game) {
-    // if(roundsBack-1 >= symbols.length) return false;
+    if(roundsBack-1 >= symbols.length) return false;
 
     const symbolNRoundsBack = symbols[roundsBack - 1];
     return symbolNRoundsBack.location.row === current.location.row &&
@@ -38,6 +39,7 @@ export function isMatch({roundsBack, symbols, current}: Game) {
 
 export function createGame(): Game {
     return {
+        round: 1,
         current: {text: defaultCellText, location: {row: 0, column: 0}},
         symbols: [],
         roundsBack: 2, // defaults to 2 back
@@ -59,6 +61,7 @@ function getNextSymbol(game: Game): Symbol {
 export function newRound(game: Game): Game {
     return {
         ...game,
+        round: game.round + 1,
         current: getNextSymbol(game),
         symbols: [game.current, ...game.symbols]
     }
