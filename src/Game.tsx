@@ -1,5 +1,18 @@
 const defaultCellText = '💩';
 
+enum MatchState {
+    None = "",
+    Match = "Match",
+    NoMatch = "NoMatch",
+};
+
+interface MatchStatus {
+    round: number;
+    state: MatchState;
+}
+
+export const initialMatchStatus: MatchStatus = {round: 0, state: MatchState.None};
+
 export interface Game {
     round: number;
     // past symbols
@@ -8,6 +21,14 @@ export interface Game {
     current: Symbol;
     // n-back
     roundsBack: number;
+    matchHistory: MatchStatus[];
+    score: number;
+}
+
+export function getLastMatchStatus({matchHistory}: Game): MatchStatus {
+    if(matchHistory.length == 0) return initialMatchStatus;
+
+    return matchHistory[matchHistory.length - 1];
 }
 
 export interface Position {
@@ -43,6 +64,27 @@ export function createGame(): Game {
         current: {text: defaultCellText, location: {row: 0, column: 0}},
         symbols: [],
         roundsBack: 2, // defaults to 2 back
+        matchHistory: [],
+        score: 0,
+    };
+}
+
+export function checkNBack(game: Game): Game {
+    if(getLastMatchStatus(game).round === game.round) return game;
+
+    let matchStatus = {round: game.round, state: MatchState.None};
+    let score = game.score;
+    if(! isMatch(game)) {
+        matchStatus.state = MatchState.NoMatch;
+    }
+    else {
+        matchStatus.state = MatchState.Match;
+        score += 1;
+    }
+    return {
+        ...game,
+        score,
+        matchHistory: game.matchHistory.concat([matchStatus])
     };
 }
 
