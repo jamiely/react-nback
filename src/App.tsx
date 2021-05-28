@@ -50,7 +50,7 @@ function App({game: originalGame}: AppProps) {
       <Score score={game.score} />
       <div className="round">Round: {game.round}</div>
       <div className="main">
-        <Grid symbol={game.current} />
+        <Grid symbol={game.current.symbol} />
       </div>
       <InfoBar onClick={onCheckClick} />
       {getMatchLabel(game)}

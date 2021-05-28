@@ -1,4 +1,4 @@
-import { Game, Symbol, getIndexFromPosition } from "../Game";
+import { Game, Symbol, getIndexFromPosition, HistoryItem } from "../Game";
 import './History.css';
 
 interface HistoryProps {
@@ -6,12 +6,12 @@ interface HistoryProps {
 };
 
 interface HistoryItemProps {
-    symbol: Symbol,
+    historyItem: HistoryItem,
     historyIndex: number
 };
 
-function HistoryItem({symbol, historyIndex}: HistoryItemProps) {
-    const index = getIndexFromPosition(symbol.location);
+function HistoryItemComponent({historyItem, historyIndex}: HistoryItemProps) {
+    const index = getIndexFromPosition(historyItem.symbol.location);
 
     function getCell(_: any, i: number) {
         const otherClassName = index === i ? ' selected' : '';
@@ -29,11 +29,11 @@ function HistoryItem({symbol, historyIndex}: HistoryItemProps) {
 }
 
 function History({game}: HistoryProps) {
-    const symbols = game.symbols.slice(0, 10);
+    const history = game.history.slice(0, 10);
     return <div className="history">
         <h3>History</h3>
-        <HistoryItem symbol={game.current} historyIndex={-1} />
-        {symbols.map((symbol, historyIndex) => HistoryItem({symbol, historyIndex}))}
+        <HistoryItemComponent historyItem={game.current} historyIndex={-1} />
+        {history.map((historyItem, historyIndex) => HistoryItemComponent({historyItem, historyIndex}))}
     </div>
 };
 
