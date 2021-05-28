@@ -1,10 +1,10 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './App.css';
 import Grid from './components/Grid';
 import InfoBar from './components/InfoBar';
 import History from './components/History';
 import { newRound, Game, checkNBack, getLastMatchStatus } from './Game';
-import { useInterval } from './util';
+import { useInterval, useKeyPress } from './util';
 import Score from './components/Score';
 
 export interface AppProps {
@@ -35,6 +35,9 @@ function App({game: originalGame}: AppProps) {
     setGame(checkNBack(game));
   }
 
+  useKeyPress('L', () => setGame(checkNBack(game)), [game]);
+  useKeyPress('l', () => setGame(checkNBack(game)), [game]);
+
   useInterval(() => {
     setGame(game => newRound(game));
   }, delayOption);
@@ -52,8 +55,9 @@ function App({game: originalGame}: AppProps) {
       <div className="main">
         <Grid symbol={game.current.symbol} />
       </div>
-      <InfoBar onClick={onCheckClick} />
-      {getMatchLabel(game)}
+      <InfoBar onClick={onCheckClick}>
+        {getMatchLabel(game)}
+      </InfoBar>
       <History game={game} />
       <label>Delay 
         <select onChange={onDelayChange}>

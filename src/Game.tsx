@@ -83,19 +83,22 @@ export function createGame(): Game {
 }
 
 export function checkNBack(game: Game): Game {
-    if(getLastMatchStatus(game).round === game.round) return game;
+    // we already tried a match
+    if(game.current.matchState !== MatchState.None) return game;
 
     let matchStatus = {round: game.round, state: MatchState.None};
     let score = game.score;
+    let current = {...game.current};
     if(! isMatch(game)) {
-        matchStatus.state = MatchState.NoMatch;
+        current.matchState = matchStatus.state = MatchState.NoMatch;
     }
     else {
-        matchStatus.state = MatchState.Match;
+        current.matchState = matchStatus.state = MatchState.Match;
         score += 1;
     }
     return {
         ...game,
+        current,
         score,
         matchHistory: game.matchHistory.concat([matchStatus])
     };
