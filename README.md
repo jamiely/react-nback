@@ -8,4 +8,5 @@ An implementation of [nback](https://en.wikipedia.org/wiki/N-back).
 Progress Videos
 ===============
 
+* [a51fe0](https://youtu.be/KqWeF0DBqkw) - History Changes
 * [010d5b](https://youtu.be/f2qkl73pI9E) - Scoring Added

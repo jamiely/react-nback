@@ -28,7 +28,7 @@ function getMatchLabel(game: Game) {
 
 function App({game: originalGame}: AppProps) {
   const [game, setGame] = useState(originalGame);
-  const [delayOption, setDelayOption] = useState(2000);
+  const [delayOption, setDelayOption] = useState<number|null>(2000);
 
   const delayOptions = [
     {delay: 3000, label: 'Slow'},
@@ -42,6 +42,10 @@ function App({game: originalGame}: AppProps) {
 
   useKeyPress('L', () => setGame(checkNBack(game)), [game]);
   useKeyPress('l', () => setGame(checkNBack(game)), [game]);
+
+  useKeyPress('p', () => {
+    setDelayOption(delay => delay ? null : 2000);
+  }, []);
 
   useInterval(() => {
     setGame(game => newRound(game));
@@ -73,8 +77,15 @@ function App({game: originalGame}: AppProps) {
               >
                 {option.label}
               </option>)}
+          <option selected={!delayOption}>Paused</option>
         </select>
       </label>
+      <h2>Controls</h2>
+      <ul>
+        <li>p - Pause</li>
+        <li>l - Location match</li>
+      </ul>
+      <div style={{height: '100px'}}></div>
     </div>
   );
 }

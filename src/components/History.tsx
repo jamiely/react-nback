@@ -2,25 +2,33 @@ import { Game, Symbol, getIndexFromPosition, HistoryItem } from "../Game";
 import './History.css';
 
 interface HistoryProps {
-    game: Game
+    game: Game;
 };
 
 interface HistoryItemProps {
-    historyItem: HistoryItem,
-    historyIndex: number
+    historyItem: HistoryItem;
+    historyIndex: number;
 };
 
 function HistoryItemComponent({historyItem, historyIndex}: HistoryItemProps) {
     const index = getIndexFromPosition(historyItem.symbol.location);
 
     function getCell(_: any, i: number) {
-        const otherClassName = index === i ? ' selected' : '';
-        return <div className={`cell ${otherClassName}`} key={i}>S</div>;
+        let otherClassName = '';
+        let text = '';
+        if(index === i) {
+            otherClassName = ' selected';
+            text = historyItem.symbol.text;
+        }
+
+        return <div className={`cell ${otherClassName}`} key={i}>
+            {text}
+        </div>;
     }
 
     const n = historyIndex + 1;
 
-    return <div className={`historyItem historyItem-${historyIndex}`}>
+    return <div className={`historyItem historyItem-${historyIndex} matchStatus-${historyItem.matchState}`}>
         {n}-back
         <div className="grid">
         {[...Array(9)].map(getCell)}

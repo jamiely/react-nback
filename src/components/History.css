@@ -10,18 +10,28 @@
 }
 
 .historyItem .grid {
-    font-size: 0em;
+    font-size: 1em;
+    height: 45px;
+    width: 45px;
 }
 .historyItem .cell {
-    width: 10px; 
-    height: 10px;
+    width: 15px; 
+    height: 15px;
 }
-.historyItem .cell.selected {
-    background-color: darkblue;
+.historyItem .grid {
+    border: 2px transparent solid;
 }
-.historyItem.historyItem--1 .cell.selected {
-    background-color: green;
+.historyItem.matchStatus-Match .grid {
+    border-color: green;
 }
-.historyItem.historyItem-1 .cell.selected {
-    background-color: red;
+.historyItem.matchStatus-NoMatch .grid {
+    border-color: red;
+}
+
+.historyItem-8 {
+    opacity: .75;
+}
+
+.historyItem-9 {
+    opacity: .5;
 }
