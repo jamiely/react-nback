@@ -1,6 +1,6 @@
 const defaultCellText = '💩';
 
-enum MatchState {
+export enum MatchState {
     None = "",
     Match = "Match",
     NoMatch = "NoMatch",

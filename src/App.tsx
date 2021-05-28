@@ -3,7 +3,7 @@ import './App.css';
 import Grid from './components/Grid';
 import InfoBar from './components/InfoBar';
 import History from './components/History';
-import { newRound, Game, checkNBack, getLastMatchStatus } from './Game';
+import { newRound, Game, checkNBack, getLastMatchStatus, MatchState } from './Game';
 import { useInterval, useKeyPress } from './util';
 import Score from './components/Score';
 
@@ -18,7 +18,12 @@ function getMatchLabel(game: Game) {
   if(lastMatchStatus.round < game.round - 1) {
     return <></>;
   }
-  return <div>{lastMatchStatus.state}</div>;
+
+  const messages: {[key: string]: string} = {};
+  messages[MatchState.Match] = `That was a ${game.roundsBack}-back!`;
+  messages[MatchState.NoMatch] = "That wasn't a match.";
+
+  return <div>{messages[lastMatchStatus.state]}</div>;
 }
 
 function App({game: originalGame}: AppProps) {
