@@ -7,6 +7,17 @@ import { newRound, Game, checkNBack, getLastMatchStatus, MatchState, MatchType }
 import { useInterval, useKeyPress } from './util';
 import Score from './components/Score';
 
+const synth = window.speechSynthesis;
+const voices = synth?.getVoices();
+
+function say(word: string, voiceIndex: number, volume: number) {
+  console.log(`Voice index ${voiceIndex} volume ${volume}`);
+  const utterThis = new SpeechSynthesisUtterance(word);
+  utterThis.voice = voices[voiceIndex ?? 0];
+  utterThis.volume = volume;
+  synth.speak(utterThis);
+}
+
 export interface AppProps {
   game: Game
 };
@@ -28,6 +39,7 @@ function getMatchLabel(game: Game) {
 
 function App({game: originalGame}: AppProps) {
   const [game, setGame] = useState(originalGame);
+  const [audio, setAudio] = useState('');
   const [delayOption, setDelayOption] = useState<number|null>(2000);
 
   const delayOptions = [
@@ -42,16 +54,23 @@ function App({game: originalGame}: AppProps) {
   function onSymbolCheckClick() {
     setGame(checkNBack(game, MatchType.Location));
   }
+  
+  function onAudioCheckClick() {
+    setGame(checkNBack(game, MatchType.Audio));
+  }
 
   useKeyPress(['k', 'K'], onSymbolCheckClick, [game]);
   useKeyPress(['L', 'l'], onLocationCheckClick, [game]);
+  useKeyPress(['J', 'j'], onAudioCheckClick, [game]);
 
   useKeyPress(['p', 'P'], () => {
     setDelayOption(delay => delay ? null : 2000);
   }, []);
 
   useInterval(() => {
-    setGame(game => newRound(game));
+    const newGame = newRound(game);
+    setGame(newGame);
+    say(newGame.current.symbol.audio, 0, 1);
   }, delayOption);
 
   function onDelayChange(evt: ChangeEvent<HTMLSelectElement>) {
@@ -62,6 +81,7 @@ function App({game: originalGame}: AppProps) {
 
   return (
     <div className="App">
+      <h1>Triple {game.roundsBack}-back</h1>
       <Score score={game.score} />
       <div className="round">Round: {game.round}</div>
       <div className="main">
@@ -69,7 +89,8 @@ function App({game: originalGame}: AppProps) {
       </div>
       <InfoBar 
         onLocationClick={onLocationCheckClick}
-        onSymbolClick={onSymbolCheckClick}>
+        onSymbolClick={onSymbolCheckClick}
+        onAudioClick={onAudioCheckClick}>
         {getMatchLabel(game)}
       </InfoBar>
       <History game={game} />

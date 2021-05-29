@@ -33,6 +33,7 @@ function HistoryItemComponent({historyItem, historyIndex}: HistoryItemProps) {
         <div className="grid">
         {[...Array(9)].map(getCell)}
         </div>
+        <div className="audio">{historyItem.symbol.audio}</div>
     </div>;
 }
 
