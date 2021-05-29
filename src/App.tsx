@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import './App.css';
 import Grid from './components/Grid';
 import InfoBar from './components/InfoBar';
@@ -39,7 +39,6 @@ function getMatchLabel(game: Game) {
 
 function App({game: originalGame}: AppProps) {
   const [game, setGame] = useState(originalGame);
-  const [audio, setAudio] = useState('');
   const [delayOption, setDelayOption] = useState<number|null>(2000);
 
   const delayOptions = [

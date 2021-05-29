@@ -1,9 +1,5 @@
 import './Grid.css';
-import {Symbol, Position, getIndexFromPosition} from '../Game';
-
-const SymbolComponent = () => {
-    return <div className="symbol">?</div>;
-}
+import {Symbol, getIndexFromPosition} from '../Game';
 
 interface CellProps {
     symbol: Symbol | undefined;
@@ -20,7 +16,7 @@ export interface GridProps {
 const Grid = (props: GridProps) => {
     const index = getIndexFromPosition(props.symbol.location);
     const cells = [...Array(9)].map((_, i) => {
-        const symbol = index == i ? props.symbol : undefined;
+        const symbol = index === i ? props.symbol : undefined;
         return <Cell key={i} symbol={symbol} />
     });
     return <div className="gridContainer">

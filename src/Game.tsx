@@ -43,7 +43,7 @@ export function getSymbols(game: Game): Symbol[] {
 }
 
 export function getLastMatchStatus({matchHistory}: Game): MatchStatus {
-    if(matchHistory.length == 0) return initialMatchStatus;
+    if(matchHistory.length === 0) return initialMatchStatus;
 
     return matchHistory[matchHistory.length - 1];
 }
@@ -81,9 +81,9 @@ export function getIndexFromPosition(position: Position) {
 
 // returns true if n-back is true at this point
 export function isMatch(game: Game, matchType: MatchType) {
-    if(matchType == MatchType.Location) return isLocationMatch(game);
-    if(matchType == MatchType.Symbol) return isTextMatch(game);
-    if(matchType == MatchType.Audio) return isAudioMatch(game);
+    if(matchType === MatchType.Location) return isLocationMatch(game);
+    if(matchType === MatchType.Symbol) return isTextMatch(game);
+    if(matchType === MatchType.Audio) return isAudioMatch(game);
 
     console.error(`Unrecognized match type ${matchType}`);
     return false;
@@ -156,7 +156,8 @@ function getRandomCellText() {
 function getNextSymbol(game: Game): Symbol {
     const location = game.current.symbol.location;
     const symbol = getRandomSymbol();
-    if(location.row == symbol.location.row && location.column == symbol.location.column) {
+    if(location.row === symbol.location.row 
+        && location.column === symbol.location.column) {
         return getNextSymbol(game);
     }
 

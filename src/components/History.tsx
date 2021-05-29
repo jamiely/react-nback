@@ -1,4 +1,4 @@
-import { Game, Symbol, getIndexFromPosition, HistoryItem } from "../Game";
+import { Game, getIndexFromPosition, HistoryItem } from "../Game";
 import './History.css';
 
 interface HistoryProps {

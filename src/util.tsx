@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 export function useInterval(callback: Function, delay: number | null) {
@@ -39,5 +39,6 @@ export function useInterval(callback: Function, delay: number | null) {
     }
     window.addEventListener('keyup', onKeyup);
     return () => window.removeEventListener('keyup', onKeyup);
+    // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, dependencies);
 }
