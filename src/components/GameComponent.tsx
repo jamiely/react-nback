@@ -1,11 +1,11 @@
 import { ChangeEvent, useState } from 'react';
-import './App.css';
-import Grid from './components/Grid';
-import InfoBar from './components/InfoBar';
-import History from './components/History';
-import { newRound, Game, checkNBack, getLastMatchStatus, MatchState, MatchType } from './Game';
-import { useInterval, useKeyPress } from './util';
-import Score from './components/Score';
+import './GameComponent.css';
+import Grid from './Grid';
+import InfoBar from './InfoBar';
+import History from './History';
+import { newRound, Game, checkNBack, getLastMatchStatus, MatchState, MatchType } from '../Game';
+import { useInterval, useKeyPress } from '../util';
+import Score from './Score';
 
 const synth = window.speechSynthesis;
 const voices = synth?.getVoices();
@@ -18,7 +18,7 @@ function say(word: string, voiceIndex: number, volume: number) {
   synth.speak(utterThis);
 }
 
-export interface AppProps {
+export interface GameComponentProps {
   game: Game
 };
 
@@ -37,7 +37,7 @@ function getMatchLabel(game: Game) {
   return <div>{messages[lastMatchStatus.state]}</div>;
 }
 
-function App({game: originalGame}: AppProps) {
+function GameComponent({game: originalGame}: GameComponentProps) {
   const [game, setGame] = useState(originalGame);
   const [delayOption, setDelayOption] = useState<number|null>(2000);
 
@@ -115,4 +115,4 @@ function App({game: originalGame}: AppProps) {
   );
 }
 
-export default App;
+export default GameComponent;

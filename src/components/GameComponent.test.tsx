@@ -1,10 +1,9 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import App from './App';
-import { createGame } from './Game';
+import GameComponent from './GameComponent';
+import { createGame } from '../Game';
 
 test('renders learn react link', () => {
-  render(<App game={createGame()} />);
+  render(<GameComponent game={createGame()} />);
   const linkElement = screen.getByText(/History/i);
   expect(linkElement).toBeInTheDocument();
 });
