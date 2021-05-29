@@ -6,6 +6,8 @@ import History from './History';
 import { newRound, Game, checkNBack, getLastMatchStatus, MatchState, MatchType } from '../Game';
 import { useInterval, useKeyPress } from '../util';
 import Score from './Score';
+import Controls from './Controls';
+import Instructions from './Instructions';
 
 const synth = window.speechSynthesis;
 const voices = synth?.getVoices();
@@ -80,7 +82,6 @@ function GameComponent({game: originalGame}: GameComponentProps) {
 
   return (
     <div className="App">
-      <h1>Triple {game.roundsBack}-back</h1>
       <Score score={game.score} />
       <div className="round">Round: {game.round}</div>
       <div className="main">
@@ -106,10 +107,10 @@ function GameComponent({game: originalGame}: GameComponentProps) {
         </select>
       </label>
       <h2>Controls</h2>
-      <ul>
-        <li>p - Pause</li>
-        <li>l - Location match</li>
-      </ul>
+      <Controls />
+      <h2>Instructions</h2>
+      <Instructions />
+
       <div style={{height: '100px'}}></div>
     </div>
   );
