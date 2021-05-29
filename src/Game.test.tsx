@@ -1,4 +1,4 @@
-import { createGame, isMatch, newRound, Game, MatchState } from './Game';
+import { createGame, isMatch, newRound, Game, MatchType} from './Game';
 
 const r0 = createGame();
 const r1 = newRound(r0);
@@ -28,6 +28,6 @@ test('game structure should match', () => {
 });
 
 test('matching should work', () => {
-  expect(isMatch(manufacturedMatch)).toBeTruthy();
-  expect(isMatch(manufacturedNonMatch)).toBeFalsy();
+  expect(isMatch(manufacturedMatch, MatchType.Location)).toBeTruthy();
+  expect(isMatch(manufacturedNonMatch, MatchType.Location)).toBeFalsy();
 });

@@ -1,4 +1,5 @@
-const defaultCellText = '💩';
+
+const availableCellTexts = ['🥨', '🍉'];
 
 export enum MatchState {
     None = "",
@@ -9,7 +10,12 @@ export enum MatchState {
 interface MatchStatus {
     round: number;
     state: MatchState;
-}
+};
+
+export enum MatchType {
+    Symbol = "symbol",
+    Location = "location",
+};
 
 export const initialMatchStatus: MatchStatus = {round: 0, state: MatchState.None};
 
@@ -51,7 +57,7 @@ export interface Symbol {
 }
 
 export function getNext(): Symbol {
-    return {text: defaultCellText, location: {row: 0, column: 0}};
+    return {text: getRandomCellText(), location: {row: 0, column: 0}};
 }
 
 export function getIndexFromPosition(position: Position) {
@@ -59,9 +65,23 @@ export function getIndexFromPosition(position: Position) {
 }
 
 // returns true if n-back is true at this point
-export function isMatch({roundsBack, history, current}: Game) {
-    if(roundsBack-1 >= history.length) return false;
+export function isMatch(game: Game, matchType: MatchType) {
+    if(matchType == MatchType.Location) return isLocationMatch(game);
+    if(matchType == MatchType.Symbol) return isSymbolMatch(game);
 
+    console.error(`Unrecognized match type ${matchType}`);
+    return false;
+}
+
+function isSymbolMatch({roundsBack, history, current}: Game) {
+    if(roundsBack-1 >= history.length) return false;
+    const symbolNRoundsBack = history[roundsBack - 1].symbol;
+    const currentText = current.symbol.text;
+    return symbolNRoundsBack.text === currentText;
+}
+
+function isLocationMatch({roundsBack, history, current}: Game) {
+    if(roundsBack-1 >= history.length) return false;
     const symbolNRoundsBack = history[roundsBack - 1].symbol;
     const currentLocation = current.symbol.location;
     return symbolNRoundsBack.location.row === currentLocation.row &&
@@ -73,7 +93,7 @@ export function createGame(): Game {
         round: 1,
         current: {
             matchState: MatchState.None,
-            symbol: {text: defaultCellText, location: {row: 0, column: 0}}
+            symbol: {text: getRandomCellText(), location: {row: 0, column: 0}}
         },
         history: [],
         roundsBack: 2, // defaults to 2 back
@@ -89,7 +109,7 @@ export function checkNBack(game: Game): Game {
     let matchStatus = {round: game.round, state: MatchState.None};
     let score = game.score;
     let current = {...game.current};
-    if(! isMatch(game)) {
+    if(! isMatch(game, MatchType.Location)) {
         current.matchState = matchStatus.state = MatchState.NoMatch;
     }
     else {
@@ -104,7 +124,13 @@ export function checkNBack(game: Game): Game {
     };
 }
 
+function getRandomCellText() {
+    const symbolIndex = Math.floor(Math.random() * availableCellTexts.length);
+    return availableCellTexts[symbolIndex];
+}
+
 function getNextSymbol(game: Game): Symbol {
+    
     const location = game.current.symbol.location;
     const row = Math.floor(Math.random() * 3);
     const column = Math.floor(Math.random() * 3);
@@ -113,7 +139,7 @@ function getNextSymbol(game: Game): Symbol {
         return getNextSymbol(game);
     }
 
-    return {text: defaultCellText, location: {row, column}};
+    return {text: getRandomCellText(), location: {row, column}};
 }
 
 export function newRound(game: Game): Game {
