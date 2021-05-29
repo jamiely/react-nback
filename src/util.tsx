@@ -31,7 +31,7 @@ export function useInterval(callback: Function, delay: number | null) {
  * @param {string} key - the name of the key to respond to, compared against event.key
  * @param {function} action - the action to perform on key press
  */
- export function useKeyPress(keys: string[], action: Function, dependencies: any[]) {
+ export function useKeyPress(keys: string[], action: Function) {
   useEffect(() => {
     function onKeyup(e: KeyboardEvent) {
       if(keys.indexOf(e.key) === -1) return;
@@ -39,6 +39,5 @@ export function useInterval(callback: Function, delay: number | null) {
     }
     window.addEventListener('keyup', onKeyup);
     return () => window.removeEventListener('keyup', onKeyup);
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, dependencies);
+  }, [action, keys]);
 }

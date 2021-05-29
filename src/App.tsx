@@ -48,23 +48,23 @@ function App({game: originalGame}: AppProps) {
   ];
 
   function onLocationCheckClick() {
-    setGame(checkNBack(game, MatchType.Location));
+    setGame(game => checkNBack(game, MatchType.Location));
   }
   function onSymbolCheckClick() {
-    setGame(checkNBack(game, MatchType.Location));
+    setGame(game => checkNBack(game, MatchType.Location));
   }
   
   function onAudioCheckClick() {
-    setGame(checkNBack(game, MatchType.Audio));
+    setGame(game => checkNBack(game, MatchType.Audio));
   }
 
-  useKeyPress(['k', 'K'], onSymbolCheckClick, [game]);
-  useKeyPress(['L', 'l'], onLocationCheckClick, [game]);
-  useKeyPress(['J', 'j'], onAudioCheckClick, [game]);
+  useKeyPress(['k', 'K'], onSymbolCheckClick);
+  useKeyPress(['L', 'l'], onLocationCheckClick);
+  useKeyPress(['J', 'j'], onAudioCheckClick);
 
   useKeyPress(['p', 'P'], () => {
     setDelayOption(delay => delay ? null : 2000);
-  }, []);
+  });
 
   useInterval(() => {
     const newGame = newRound(game);
