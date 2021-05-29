@@ -3,7 +3,7 @@ import './App.css';
 import Grid from './components/Grid';
 import InfoBar from './components/InfoBar';
 import History from './components/History';
-import { newRound, Game, checkNBack, getLastMatchStatus, MatchState } from './Game';
+import { newRound, Game, checkNBack, getLastMatchStatus, MatchState, MatchType } from './Game';
 import { useInterval, useKeyPress } from './util';
 import Score from './components/Score';
 
@@ -36,14 +36,17 @@ function App({game: originalGame}: AppProps) {
     {delay: 1500, label: 'Fast'}
   ];
 
-  function onCheckClick() {
-    setGame(checkNBack(game));
+  function onLocationCheckClick() {
+    setGame(checkNBack(game, MatchType.Location));
+  }
+  function onSymbolCheckClick() {
+    setGame(checkNBack(game, MatchType.Location));
   }
 
-  useKeyPress('L', () => setGame(checkNBack(game)), [game]);
-  useKeyPress('l', () => setGame(checkNBack(game)), [game]);
+  useKeyPress(['k', 'K'], onSymbolCheckClick, [game]);
+  useKeyPress(['L', 'l'], onLocationCheckClick, [game]);
 
-  useKeyPress('p', () => {
+  useKeyPress(['p', 'P'], () => {
     setDelayOption(delay => delay ? null : 2000);
   }, []);
 
@@ -64,7 +67,9 @@ function App({game: originalGame}: AppProps) {
       <div className="main">
         <Grid symbol={game.current.symbol} />
       </div>
-      <InfoBar onClick={onCheckClick}>
+      <InfoBar 
+        onLocationClick={onLocationCheckClick}
+        onSymbolClick={onSymbolCheckClick}>
         {getMatchLabel(game)}
       </InfoBar>
       <History game={game} />

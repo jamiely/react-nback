@@ -3,14 +3,16 @@ import Choose from "./Choose";
 import './InfoBar.css';
 
 interface InfoBarProps {
-    onClick: () => void;
+    onLocationClick: () => void;
+    onSymbolClick: () => void;
     children?: any;
 }
 
-function InfoBar({onClick, children}: InfoBarProps) {
+function InfoBar({onLocationClick, onSymbolClick, children}: InfoBarProps) {
     return <div className="infoBar">
         2-Back 
-        <Choose onClick={onClick} text="(L)ocation" />
+        <Choose onClick={onLocationClick} text="(L)ocation" />
+        <Choose onClick={onSymbolClick} text="Symbol (K)" />
         {children}
     </div>;
 }

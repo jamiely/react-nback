@@ -1,5 +1,5 @@
 
-const availableCellTexts = ['🥨', '🍉'];
+const availableCellTexts = ['💩', '🍉', '🔥', '😅', '🐒', '🌈', '🍏', '⚽'];
 
 export enum MatchState {
     None = "",
@@ -102,14 +102,14 @@ export function createGame(): Game {
     };
 }
 
-export function checkNBack(game: Game): Game {
+export function checkNBack(game: Game, matchType: MatchType): Game {
     // we already tried a match
     if(game.current.matchState !== MatchState.None) return game;
 
     let matchStatus = {round: game.round, state: MatchState.None};
     let score = game.score;
     let current = {...game.current};
-    if(! isMatch(game, MatchType.Location)) {
+    if(! isMatch(game, matchType)) {
         current.matchState = matchStatus.state = MatchState.NoMatch;
     }
     else {

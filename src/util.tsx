@@ -31,10 +31,11 @@ export function useInterval(callback: Function, delay: number | null) {
  * @param {string} key - the name of the key to respond to, compared against event.key
  * @param {function} action - the action to perform on key press
  */
- export function useKeyPress(key: string, action: Function, dependencies: any[]) {
+ export function useKeyPress(keys: string[], action: Function, dependencies: any[]) {
   useEffect(() => {
     function onKeyup(e: KeyboardEvent) {
-      if (e.key === key) action()
+      if(keys.indexOf(e.key) === -1) return;
+      action();
     }
     window.addEventListener('keyup', onKeyup);
     return () => window.removeEventListener('keyup', onKeyup);
