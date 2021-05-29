@@ -15,7 +15,7 @@ function HistoryItemComponent({historyItem, historyIndex}: HistoryItemProps) {
 
     function getCell(_: any, i: number) {
         let otherClassName = '';
-        let text = '';
+        let text = '\u00A0';
         if(index === i) {
             otherClassName = ' selected';
             text = historyItem.symbol.text;
