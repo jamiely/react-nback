@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Instructions from "./Instructions";
 
 function Home() {
@@ -15,7 +16,7 @@ function Home() {
         </blockquote>
 
         <h2>Play</h2>
-        <a href="/game">Let's play</a>
+        <Link to="/game">Let's play</Link>
 
         <h2>Instructions</h2>
         <Instructions />

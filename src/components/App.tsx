@@ -1,18 +1,15 @@
-import { Route, Router, Switch } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router';
+import { BrowserRouter, Link } from 'react-router-dom';
 import { Game } from '../Game';
 import GameComponent from './GameComponent';
 import Home from './Home';
-import { createBrowserHistory } from 'history';
 
 interface AppProps {
     game: Game;
 }
 
-const history = createBrowserHistory();
-
 function App({game}: AppProps) {    
-    return <Router history={history}>
+    return <BrowserRouter basename={process.env.REACT_APP_ROUTER_BASENAME}>
         <h1>Triple {game.roundsBack}-back</h1>
         <Link to="/">Home</Link> | <Link to="/game">Play</Link>
         <Switch>
@@ -23,7 +20,7 @@ function App({game}: AppProps) {
                 <Home />
             </Route>
         </Switch>
-    </Router>;
+    </BrowserRouter>;
 }
 
 export default App;
